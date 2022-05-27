@@ -1,40 +1,94 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
+#define CMD_BUFFER 64
 #define UNDEF_CMD 0
-#define LIST 1
+#define QUIT 1
+#define LIST 2
 
 
-void printhelp();
-int execute(const int cmd);
+char * execute(const int cmd);
 int parsecmd(char *cmd);
 
 int main(int argc, char *argv[]) {
-    int exitcode = 0;
-    if (argc > 1) {
-        int cmd = parsecmd(argv[1]);
-        if (cmd > 0) {
-            exitcode = execute(cmd);
-        } else {
-            printhelp();
+    int exitcode = 0, cmdcode = 0;
+    char cmd[CMD_BUFFER];
+    char *result;
+    
+    while (1) {
+        printf("> ");
+        scanf("%s", cmd);
+
+        cmdcode = parsecmd(cmd);
+        switch (cmdcode) {
+            case UNDEF_CMD:
+                printf("HELP PLACEHOLDER\n");
+                break;
+
+            case QUIT:
+                printf("bye, bye\n");
+                break;
+
+            default:
+                result = execute(cmdcode);
+                printf("%s\n", result);
+                free(result);
         }
-    } else {
-        printhelp();
+
+        if (cmdcode == QUIT) {
+            break;
+        }
     }
 
+//    if (argc > 1) {
+//        int cmd = parsecmd(argv[1]);
+//        if (cmd > 0) {
+//            exitcode = execute(cmd);
+//        } else {
+//            printhelp();
+//        }
+//    } else {
+//        printhelp();
+//    }
+//
     return exitcode;
 }
 
 
-int execute(const int cmd) { // cmd > 0
+char * execute(const int cmd) { // cmd > 1
+    char *message, *msg;
     switch (cmd) {
         case LIST:
-            printf("listing... \n");
-            break;
+            message = "listing...";
+            msg = (char *) malloc(10);
+
+            for (int i = 0; i < 10; i++) {
+                msg[i] = message[i];
+            }            
+
+            return msg;
+
+        default:
+            message = "x";
+            msg = (char *) malloc(1);
+
+            for (int i = 0; i < 1; i++) {
+                msg[i] = message[i];
+            }            
+
+            return msg;
     }
 }
 
 int parsecmd(char *cmd) {
+    char *quital[] = { "q", "quit", "exit", "ex", "end" };
+    for (int i = 0; i < 4; i++) {
+        if (strcmp(quital[i], cmd) == 0) {
+            return QUIT;
+        }
+    }
+
     char *listal[] = { "list", "ls", "lst", "l" };
     for (int i = 0; i < 4; i++) {
         if (strcmp(listal[i], cmd) == 0) {
@@ -45,7 +99,4 @@ int parsecmd(char *cmd) {
     return UNDEF_CMD;
 }
 
-void printhelp() {
-    printf("HELP PLACEHOLDER");
-}
 
