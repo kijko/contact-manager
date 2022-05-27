@@ -18,7 +18,7 @@ void utilizell(struct linkedlist *l);
 int intcmp(void *a, void *b);
 
 
-int main() {
+int mainll() {
     struct linkedlist *l = newll(intcmp);
     int a = 4, b = 2, c = 3, d = 4;
     

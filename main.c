@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "linkedlist.h"
 
 #define CMD_BUFFER 64
 #define UNDEF_CMD 0
@@ -16,6 +17,13 @@ int main(int argc, char *argv[]) {
     char cmd[CMD_BUFFER];
     char *result;
     
+    //struct linkedlist *l = newll(intcmp);
+    //addtoll(l, (void *) &a);
+    //addtoll(l, (void *) &b);
+    //addtoll(l, (void *) &c);
+    //addtoll(l, (void *) &d);
+    
+    //utilizell(l);
     while (1) {
         printf("> ");
         scanf("%s", cmd);
@@ -41,17 +49,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-//    if (argc > 1) {
-//        int cmd = parsecmd(argv[1]);
-//        if (cmd > 0) {
-//            exitcode = execute(cmd);
-//        } else {
-//            printhelp();
-//        }
-//    } else {
-//        printhelp();
-//    }
-//
     return exitcode;
 }
 
