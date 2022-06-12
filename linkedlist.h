@@ -16,4 +16,5 @@ struct linkedlist * newll(int (*cmp)(void *, void *));
 struct node * addtoll(struct linkedlist *l, void *value);
 void utilizell(struct linkedlist *l);
 int intcmp(void *a, void *b);
+int stringcmp(void *a, void *b);
 

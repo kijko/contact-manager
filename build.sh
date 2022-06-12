@@ -1,4 +1,4 @@
 #!/bin/bash
 
-gcc -x c -std=c17 -o ./build/main main.c linkedlist.c
+gcc -std=c17 -x c -Wextra -g main.c linkedlist.c -o ./build/main
 

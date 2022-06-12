@@ -1,35 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include "linkedlist.h"
 
-struct node {
-    void *value;
-    struct node *next;
-};
-
-struct linkedlist {
-    struct node *first;
-    int (*cmp)(void *, void*);
-};
-
-struct linkedlist * newll(int (*cmp)(void *, void *));
-struct node * addtoll(struct linkedlist *l, void *value);
-void utilizell(struct linkedlist *l);
-int intcmp(void *a, void *b);
-
-
-int mainll() {
-    struct linkedlist *l = newll(intcmp);
-    int a = 4, b = 2, c = 3, d = 4;
+int mainx() {
+    struct linkedlist *l = newll(stringcmp);
+    char *a = "abc", *b = "def", *c = "ghi", *d = "jkl";
     
-    addtoll(l, (void *) &a);
-    addtoll(l, (void *) &b);
-    addtoll(l, (void *) &c);
-    addtoll(l, (void *) &d);
+    addtoll(l, (void *) d);
+    addtoll(l, (void *) a);
+    addtoll(l, (void *) c);
+    addtoll(l, (void *) b);
     
     struct node *curr = l->first;
     while (curr != NULL) {
-        printf("Node[%d]\n", *((int *)(curr->value)));
+        printf("Node[%s]\n", (char *)(curr->value));
         curr = curr->next;
    }
     
@@ -47,9 +33,6 @@ struct linkedlist * newll(int (*cmp)(void *, void *)) {
 }
 
 struct node * addtoll(struct linkedlist *l, void *value) {
-    int one = 2;
-    printf("cmp: %d", (*(l->cmp))((void *) &one, value));
-
     struct node *elem;
 
     elem = (struct node *) malloc(sizeof(*elem));
@@ -89,3 +72,11 @@ int intcmp(void *a, void *b) {
 
     return ai > bi ? -1 : (ai < bi ? 1 : 0);
 }
+
+int stringcmp(void *a, void *b) {
+    char *ai = (char *) a;
+    char *bi = (char *) b;
+
+    return strcmp(ai, bi);
+}
+
