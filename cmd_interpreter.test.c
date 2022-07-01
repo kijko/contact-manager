@@ -1,10 +1,13 @@
 #include <stdio.h>
-#include "test.h"
+#include <string.h> 
 
+#include "test.h"
 #include "cmd_interpreter.h"
 
 int tests_run = 0;
  
+// interpret_cmd
+
 static char * empty_buffer__interpret_cmd__undef_cmd() {
     int buffer_len = 0;
 
@@ -29,7 +32,7 @@ static char * buffer_overflow__interpret_cmd__buffer_overflow() {
 static char * list_cmd_alias__interpret_cmd__list_cmd() {
     int buffer_len = 64;
 
-    int list1 = interpret_cmd("list", buffer_len);
+    int list1 = interpret_cmd("list\n", buffer_len);
     int list2 = interpret_cmd("ls", buffer_len);
     int list3 = interpret_cmd("l", buffer_len);
 
@@ -56,6 +59,20 @@ static char * quit_cmd_alias__interpret_cmd__quit_cmd() {
     return 0;
 }
 
+static char * list_cmd_with_args__interpret_cmd__list_cmd() {
+    int buffer_len = 64;
+
+    int list1 = interpret_cmd("list asd dsa qwe \n", buffer_len);
+    int list2 = interpret_cmd("ls\n", buffer_len);
+    int list3 = interpret_cmd("l", buffer_len);
+
+    assert("err1: expected LIST_CMD", list1 == LIST_CMD);
+    assert("err2: expected LIST_CMD", list2 == LIST_CMD);
+    assert("err3: expected LIST_CMD", list3 == LIST_CMD);
+    
+    return 0;
+}
+
 
 static char * random_string__interpret_cmd__undef_cmd() {
     int buffer_len = 64;
@@ -69,6 +86,63 @@ static char * random_string__interpret_cmd__undef_cmd() {
     return 0;
 }
 
+// interpret_args
+
+static char * empty_buffer__interpret_args__NULL() {
+    char **result = interpret_args("", 0);
+
+    assert("err: expected NULL", result == NULL);
+
+    return 0;
+}
+
+static char * buffer_overflow__interpret_args__NULL() {
+    return 0;
+}
+
+static char * cmd_with_two_args_string__interpret_args__2_args_array() {
+    return 0;
+}
+
+
+//static char * something() {
+//    char buffer[64];
+//    
+//    fgets(buffer, 64, stdin);
+//    printf("%s", buffer);
+//
+//    int count = 0;
+//    for (int i = 0; i <= 64; i++) {
+//        if (buffer[i] == '\n') {
+//            break;
+//        }
+//        
+//        count++;
+//    }
+//        
+//    printf("\n%i", count);
+//    
+//    return 0;
+//}
+
+
+static char * some_input__parse_statement__correct_args() {
+    // GIVEN
+    char *input = "cmd arg1 arg2";
+    short input_len = 14;
+
+    // WHEN
+    struct statement *s = parse_statement(input, input_len);
+
+    // THEN
+    assert("parse_statement - some_input -> correct_args [1]", strcmp(s->cmd, "cmd") == 0);
+    assert("parse_statement - some_input -> correct_args [2]", strcmp((s->args)[0], "arg1") == 0);
+    assert("parse_statement - some_input -> correct_args [3]", strcmp((s->args)[1], "arg2") == 0);
+    assert("parse_statement - some_input -> correct_args [4]", (s->args_count) == 2);
+
+    // FINALLY
+    free_statement(s);
+}
 
 
 // ----------------------------------------------------------
@@ -76,11 +150,19 @@ static char * random_string__interpret_cmd__undef_cmd() {
 
 
 static char * all_tests() {
-    run_test(empty_buffer__interpret_cmd__undef_cmd);
-    run_test(buffer_overflow__interpret_cmd__buffer_overflow);
-    run_test(list_cmd_alias__interpret_cmd__list_cmd);
-    run_test(quit_cmd_alias__interpret_cmd__quit_cmd);
-    run_test(random_string__interpret_cmd__undef_cmd);
+    //run_test(empty_buffer__interpret_cmd__undef_cmd);
+    //run_test(buffer_overflow__interpret_cmd__buffer_overflow);
+    //run_test(list_cmd_alias__interpret_cmd__list_cmd);
+ //   run_test(list_cmd_with_args__interpret_cmd__list_cmd);
+    //run_test(quit_cmd_alias__interpret_cmd__quit_cmd);
+    //run_test(random_string__interpret_cmd__undef_cmd);
+
+    //run_test(empty_buffer__interpret_args__NULL);
+    //run_test(buffer_overflow__interpret_args__NULL);
+    //run_test(cmd_with_two_args_string__interpret_args__2_args_array);
+
+ //   run_test(something);
+    run_test(some_input__parse_statement__correct_args);
 
     return 0;
 }

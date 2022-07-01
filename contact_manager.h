@@ -1,3 +1,3 @@
 
-char * cm_run(short cmd);
+char * cm_run(short cmd, short argc, char **args);
 

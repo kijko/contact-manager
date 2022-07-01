@@ -8,20 +8,22 @@
 #define BUFFER_LEN 64
 
 int main(int argc, char *argv[]) {
-    char buffer[BUFFER_LEN], *result;
+    char buffer[BUFFER_LEN], *result, args_buffer[BUFFER_LEN];
     short cmd;
+    char **args;
 
     while (1) {
         printf("> ");
-        scanf("%s", buffer);
+        fgets(buffer, BUFFER_LEN, stdin);
 
         cmd = interpret_cmd(buffer, BUFFER_LEN);
+        args = interpret_args(args_buffer, BUFFER_LEN);
         
         if (cmd == QUIT_CMD) {
             printf("bye, bye\n");
             break;
         } else {
-            result = cm_run(cmd);
+            result = cm_run(cmd, 3, args);
             printf("%s\n", result);
 
             free(result);

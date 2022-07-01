@@ -2,7 +2,7 @@
 
 #include "cmd_interpreter.h"
 
-char * cm_run(short cmd) {
+char * cm_run(short cmd, short argc, char **args) {
     char *result;
 
     switch (cmd) {
