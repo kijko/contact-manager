@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]) {
     char buffer[BUFFER_LEN], *result, args_buffer[BUFFER_LEN];
     short cmd;
-    char **args;
+    struct statement *args;
 
     while (1) {
         printf("> ");
@@ -23,10 +23,14 @@ int main(int argc, char *argv[]) {
             printf("bye, bye\n");
             break;
         } else {
-            result = cm_run(cmd, 3, args);
+            result = cm_run(cmd, 3, NULL);
             printf("%s\n", result);
 
             free(result);
+        }
+        
+        if (args != NULL) {
+            free(args);
         }
     }
 

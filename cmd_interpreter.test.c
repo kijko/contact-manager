@@ -89,42 +89,26 @@ static char * random_string__interpret_cmd__undef_cmd() {
 // interpret_args
 
 static char * empty_buffer__interpret_args__NULL() {
-    char **result = interpret_args("", 0);
+    struct statement *result = interpret_args("", 0);
 
-    assert("err: expected NULL", result == NULL);
+    assert("err: empty_buffer__interpret_args__NULL", result == NULL);
 
     return 0;
 }
 
 static char * buffer_overflow__interpret_args__NULL() {
+    struct statement *result = interpret_args("abc", 2);
+
+    assert("err: buffer_overflow__interpret_args__NULL", result == NULL);
+
     return 0;
 }
 
 static char * cmd_with_two_args_string__interpret_args__2_args_array() {
+    assert("err: cmd_with_two_args_string__interpret_args__2_args_array", 1 == 2);
+
     return 0;
 }
-
-
-//static char * something() {
-//    char buffer[64];
-//    
-//    fgets(buffer, 64, stdin);
-//    printf("%s", buffer);
-//
-//    int count = 0;
-//    for (int i = 0; i <= 64; i++) {
-//        if (buffer[i] == '\n') {
-//            break;
-//        }
-//        
-//        count++;
-//    }
-//        
-//    printf("\n%i", count);
-//    
-//    return 0;
-//}
-
 
 static char * some_input__parse_statement__correct_args() {
     // GIVEN
@@ -144,25 +128,57 @@ static char * some_input__parse_statement__correct_args() {
     free_statement(s);
 }
 
+static char * no_args__parse_statement__correct_args() {
+    // GIVEN
+    char *input = "cmd";
+    short input_len = 4;
+
+    // WHEN
+    struct statement *s = parse_statement(input, input_len);
+
+    // THEN
+    assert("parse_statement - no_args -> correct_args [1]", strcmp(s->cmd, "cmd") == 0);
+    assert("parse_statement - no_args -> correct_args [2]", (s->args_count) == 0);
+
+    // FINALLY
+    free_statement(s);
+}
+
+static char * whitespaces__parse_statement__rm_whitespaces() {
+    // GIVEN
+    char *input = "cmd\n";
+    short input_len = 5;
+
+    // WHEN
+    struct statement *s = parse_statement(input, input_len);
+
+    // THEN
+    assert("parse_statement - whitespaces -> rm_whitespaces [1]", strcmp(s->cmd, "cmd") == 0);
+    assert("parse_statement - whitespaces -> rm_whitespaces [2]", (s->args_count) == 0);
+
+    // FINALLY
+    free_statement(s);
+}
 
 // ----------------------------------------------------------
 
 
 
 static char * all_tests() {
-    //run_test(empty_buffer__interpret_cmd__undef_cmd);
-    //run_test(buffer_overflow__interpret_cmd__buffer_overflow);
-    //run_test(list_cmd_alias__interpret_cmd__list_cmd);
- //   run_test(list_cmd_with_args__interpret_cmd__list_cmd);
-    //run_test(quit_cmd_alias__interpret_cmd__quit_cmd);
-    //run_test(random_string__interpret_cmd__undef_cmd);
+    run_test(empty_buffer__interpret_cmd__undef_cmd);
+    run_test(buffer_overflow__interpret_cmd__buffer_overflow);
+    run_test(list_cmd_alias__interpret_cmd__list_cmd);
+    run_test(list_cmd_with_args__interpret_cmd__list_cmd);
+    run_test(quit_cmd_alias__interpret_cmd__quit_cmd);
+    run_test(random_string__interpret_cmd__undef_cmd);
 
-    //run_test(empty_buffer__interpret_args__NULL);
-    //run_test(buffer_overflow__interpret_args__NULL);
-    //run_test(cmd_with_two_args_string__interpret_args__2_args_array);
+    run_test(empty_buffer__interpret_args__NULL);
+    run_test(buffer_overflow__interpret_args__NULL);
+    run_test(cmd_with_two_args_string__interpret_args__2_args_array);
 
- //   run_test(something);
     run_test(some_input__parse_statement__correct_args);
+    run_test(no_args__parse_statement__correct_args);
+    run_test(whitespaces__parse_statement__rm_whitespaces);
 
     return 0;
 }
