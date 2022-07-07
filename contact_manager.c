@@ -1,8 +1,13 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "cmd_interpreter.h"
 
 char * cm_run(short cmd, short argc, char **args) {
+    printf("cmd_id: %d, arg_count: %d, args: ", cmd, argc);
+    for (int i = 0; i < argc; i++) printf("%s, ", args[i]);
+    printf("\n");
+
     char *result;
 
     switch (cmd) {

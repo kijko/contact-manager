@@ -156,6 +156,14 @@ struct statement * interpret_args(char *buffer, short buffer_len) {
         return NULL;
     }
 
+    short input_len = count_input(buffer, buffer_len);
+
+    if (input_len > 0) {
+        struct statement *s = parse_statement(buffer, input_len);        
+
+        return s;
+    }
+
     return NULL;
 }
 

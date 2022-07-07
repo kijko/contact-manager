@@ -105,10 +105,18 @@ static char * buffer_overflow__interpret_args__NULL() {
 }
 
 static char * cmd_with_two_args_string__interpret_args__2_args_array() {
-    assert("err: cmd_with_two_args_string__interpret_args__2_args_array", 1 == 2);
+    struct statement *result = interpret_args("cmd arg1 arg2", 64);
+
+    assert("err[1]: cmd_with_two_args_string__interpret_args__2_args_array", strcmp(result->cmd, "cmd") == 0);
+    assert("err[2]: cmd_with_two_args_string__interpret_args__2_args_array", result->args_count == 2);
+    assert("err[3]: cmd_with_two_args_string__interpret_args__2_args_array", strcmp(result->args[0], "arg1") == 0);
+    assert("err[4]: cmd_with_two_args_string__interpret_args__2_args_array", strcmp(result->args[1], "arg2") == 0);
+
 
     return 0;
 }
+
+//
 
 static char * some_input__parse_statement__correct_args() {
     // GIVEN
