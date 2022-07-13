@@ -6,6 +6,7 @@
 
 const char *LIST_CMD_ALIASES[] = { "list", "ls", "l", "\0" };
 const char *QUIT_CMD_ALIASES[] = { "quit", "q", "exit", "end", "\0" };
+const char *ADD_CMD_ALIASES[] = { "add", "new", "\0" };
 
 int is_cmd(char *cmd_buffer, const char **aliases);
 
@@ -27,7 +28,8 @@ short interpret_cmd(char *buffer, short buffer_len) {
 
         if (s != NULL) {
             if (is_cmd((s->cmd), LIST_CMD_ALIASES)) result = LIST_CMD;
-            if (is_cmd((s->cmd), QUIT_CMD_ALIASES)) result = QUIT_CMD;
+            if (result == UNDEF_CMD && is_cmd((s->cmd), QUIT_CMD_ALIASES)) result = QUIT_CMD;
+            if (result == UNDEF_CMD && is_cmd((s->cmd), ADD_CMD_ALIASES)) result = ADD_CMD;
         }
 
         free_statement(s);

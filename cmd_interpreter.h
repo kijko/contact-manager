@@ -4,6 +4,8 @@
 #define QUIT_CMD 1
 
 #define LIST_CMD 2 
+#define ADD_CMD 3
+#define REMOVE_CMD 4
 
 // returns code of an cmd or 0(UNDEF_CMD) if command not recognized
 short interpret_cmd(char *buffer, short buffer_len);
